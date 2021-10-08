@@ -7,9 +7,11 @@ The result saved on file have the following information:
     -) sum of the powers (meter + PV)).
 """
 from os import path
+from pathlib import Path
 import numpy as np
 from datetime import datetime
 from pv_simulator.Broker import Broker
+
 
 def get_sec(t)->int:
     """
@@ -51,9 +53,11 @@ class PV_simulator:
         self.queue_name = queue_name
         self.broker = broker
         self.max_pv_value = max_pv
-        self.folder = out_folder
         self.delay_time = delta_time
-        self.filename = datetime.now().strftime("%m_%d_%Y %H_%M_%S").replace(" ","_")
+
+        # Set folder and filename
+        self.folder = out_folder if out_folder is not None and path.isdir(out_folder)else str(Path.home())
+        self.filename = "result_"+datetime.now().strftime("%m_%d_%Y %H_%M_%S").replace(" ","_")+".txt"
 
         # create a value for each second of the day
         self.simulated_data =  [gauss(i, self.max_pv_value, 13, np.sqrt(6)) for i in np.linspace(0, 24, 24 * 60 * 60)]
@@ -75,7 +79,10 @@ class PV_simulator:
         """
         Save data to the file
         """
-        pass
+        if not path.exists(self.filename):
+            with open(self.filename, 'a') as write:
+                write.write("Timestamp\tMeter_value\tPV_value\tCombined_Value\n")
+
 
     def process_message(self,msg:str)->None:
         """
