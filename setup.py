@@ -29,7 +29,7 @@ setup(
     name='PV simulator',
     version=find_version("pv_simulator", "__init__.py"),
     python_requires='>3.8.0',
-    packages=['pv_simulator'],
+    packages=['pv_simulator','runner'],
     url='',
     license='MIT',
     author='Lusnig Luca',
@@ -45,6 +45,8 @@ setup(
     long_description_content_type='text/markdown',
     entry_points={
         'console_scripts': [
-            'pv_main.py = pv_simulator.pv_main:run'
+            'pv_main.py = runner.pv_main:run_main',
+            'run_meter.py = runner.run_meter:run_meter',
+            'run_PV_simulator.py = runner.run_PV_simulator:run_PV'
         ]},
 )
