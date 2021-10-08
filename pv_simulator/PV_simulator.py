@@ -15,6 +15,7 @@ from typing import Dict
 from pandas import DataFrame
 from aio_pika import IncomingMessage
 from json import loads
+import asyncio
 
 
 def get_sec(t)->int:
@@ -67,17 +68,17 @@ class PV_simulator:
         self.simulated_data =  [gauss(i, self.max_pv_value, 13, np.sqrt(6)) for i in np.linspace(0, 24, 24 * 60 * 60)]
 
 
-    def connect_to_broker(self):
+    async def connect_to_broker(self):
         """
         Create a connection with the broker
         """
-        self.broker.connect()
+        await self.broker.connect()
 
-    def disconnect_to_broker(self):
+    async def disconnect_to_broker(self):
         """
         close the connection with the broker
         """
-        self.broker.close()
+        await self.broker.close()
 
     async def write_on_file(self,data:Dict):
         """
@@ -86,7 +87,7 @@ class PV_simulator:
         """
         if not path.exists(self.filename):
             with open(self.filename, 'w') as f:
-                f.write("Timestamp\nMeter_value\nPV_value\nTot_value\n\n")
+                f.write("Timestamp [kW]\nMeter_value [kW]\nPV_value [kW]\nTot_value [kW]\n\n")
         df = DataFrame(columns=['Timestamp', "Meter_value", "PV_value", "Tot_value"])
         df.loc[0] = list(data.values())
         df.to_csv(self.filename, sep='\t', index=False, header=False, mode='a')
@@ -101,7 +102,15 @@ class PV_simulator:
         msg = loads(msg.body.decode('utf-8'))
         pv_value = self.simulated_data[ get_sec(t=msg['Timestamp']) ]
         data ={'Timestamp': msg['Timestamp'],
-               'Meter_value': msg['Meter_value'],
+               'Meter_value': msg['Meter_value']/1000,
                'PV_value': pv_value,
-               'Tot_value': pv_value + msg['Meter_value']}
+               'Tot_value': pv_value + msg['Meter_value']/1000}
         await self.write_on_file(data=data)
+
+
+    async def consume_data(self)->None:
+        """
+        Consumes the message
+        """
+        await self.broker.consume_msg(self.process_message)
+        await asyncio.sleep(self.delay_time)
