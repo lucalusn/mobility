@@ -2,7 +2,8 @@
 Is a message-queueing, a rabbitMQ, that allows 'Meter' and 'PV_simulator' to communicate with each other.
 It receives messages from 'Meter' and sends them to 'PV_simulator'
 """
-import pika
+import aio_pika
+from typing import Callable
 
 class Broker:
     def __init__(self,address: str, queue_name:str)->None:
@@ -16,40 +17,43 @@ class Broker:
         self.channel = None
         self.message_queue = None
 
-    def connect(self)->None:
+    async def connect(self)->None:
         """
         Create the connection and declare the queue
         In case it is not possible to create the connection an error message will explain the reason
         """
         try:
-            self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.address))
-            self.channel = self.connection.channel()
-            self.channel.queue_declare(self.queue_name)
+            self.connection = await aio_pika.connect(self.address)
+            self.channel = await self.connection.channel()
+            self.message_queue = await self.channel.declare_queue(self.queue_name)
         except Exception as e:
             print (f"Not enable to create the connection because '{e}' exception")
             raise e
 
-    def close(self)->None:
+    async def close(self)->None:
         """
         Closes the connection between Meter and PV_simulator
         In case it is not possible to close the connection an error message will explain the reason
         """
         if self.connection:
             try:
-                self.connection.close()
+                await self.connection.close()
             except Exception as e:
                 print(f"Not enable to close the connection because '{e}' exception")
                 raise e
 
-    def send_msg(self, msg:str)->None:
+    async def publish_msg(self, msg:str)->None:
         """
-        Sends the message to the queue
+        Publishes (i.e.:sends) a message to the queue
         :param msg: message
         """
-        pass
+        await self.channel.default_exchange.publish( aio_pika.Message(
+                                                                        body=msg.encode('utf-8')),
+                                                                        routing_key=self.queue_name)
 
-    def receive_msg(self)->None:
+    async def consume_msg(self, process_message:Callable)->None:
         """
-        receives the message to the queue
+        consumes a message from the queue
+        :param process_message: callable function (e.g.: PV_simulator.process_message)
         """
-        pass
+        await self.message_queue.consume(process_message, no_ack=True)
