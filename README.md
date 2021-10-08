@@ -3,11 +3,11 @@ System that collects every 'n' seconds data from a Meter, which generates random
 
 The following picture of a real PV power output curve during a normal day.
 
-![Image of real data](real curve.png)
+![Image of real_data](https://github.com/lucalusn/mobility/blob/main/real_20curve.png)
  
 The following picture represent the simulated PV power output curve
 
-![Image of simulated data](simulated data_PV.png)
+![Image of simulated_data](https://github.com/lucalusn/mobility/blob/main/simulated_data_PV.png)
 
 
 ###### Architecture:
@@ -22,7 +22,7 @@ The following picture represent the simulated PV power output curve
 
 The following diagram exemplifies the interactions between the components
 
-![Image of system architecture](architecture.png)
+![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/architecture.png)
 
 ###### How to install:
 1: create a conda env and install the package using setup.py
