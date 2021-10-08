@@ -46,7 +46,7 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 
 ## Example of use:
 
-1. Run the **docker-compose up** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a *docker-compose.yaml* file.
+1. Run the **docker-compose up -d** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a *docker-compose.yaml* file.
 
 2. run  the script **pv_main.py** 
 
