@@ -3,11 +3,11 @@ System that collects every 'n' seconds data from a Meter, which generates random
 
 The following picture of a real PV power output curve during a normal day.
 
-![Image of real_data](https://github.com/lucalusn/mobility/blob/main/real_curve.png)
+![Image of real_data](https://github.com/lucalusn/mobility/blob/main/images/real_curve.png)
  
 The following picture represent the simulated PV power output curve
 
-![Image of simulated_data](https://github.com/lucalusn/mobility/blob/main/simulated_data_PV.png)
+![Image of simulated_data](https://github.com/lucalusn/mobility/blob/main/images/simulated_data_PV.png)
 
 
 ## Architecture:
@@ -23,7 +23,7 @@ The filename will be generated automatically from the script in function of the 
 
 The following diagram exemplifies the interactions between the components
 
-![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/architecture.png)
+![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/images/architecture.png)
 
 ## How to install:
 This demo script will run the RabbitMQon on a docker container. **Docker** and **Docker-compose** have to be manually install on your machine. 
