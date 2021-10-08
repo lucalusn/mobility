@@ -35,6 +35,7 @@ setup(
     author='Lusnig Luca',
     install_requires=[                # since i am using basic function of numpy and pandas i do not pin theirs version
         "aio-pika == 6.8.0",
+        "asyncio == 3.4.3",
         "numpy",
         "pandas"
     ],
