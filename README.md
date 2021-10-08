@@ -26,8 +26,8 @@ The following diagram exemplifies the interactions between the components
 ![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/architecture.png)
 
 ## How to install:
-This demo script will run the RabbitMQon on a docker container. Docker has to be manually install on your machine. 
-More info about how to install [Docker](https://docs.docker.com/engine/install/ubuntu/)
+This demo script will run the RabbitMQon on a docker container. **Docker** and **Docker-compose** have to be manually install on your machine. 
+More info about how to install [Docker](https://docs.docker.com/engine/install/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/)
 
 1: create a conda env and install the package using setup.py
 
@@ -46,9 +46,11 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 
 ## Example of use:
 
-Just run the main
+1. Run the **docker-compose up** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a *docker-compose.yaml* file.
 
-    pv_main 
+2. run  the script **pv_main.py** 
+
+3. Run the **docker-compose down** command in a terminal for closing the rabbitMQ
     
 ## Parameters meaning
     -p1: 
