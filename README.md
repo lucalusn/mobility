@@ -26,6 +26,9 @@ The following diagram exemplifies the interactions between the components
 ![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/architecture.png)
 
 ## How to install:
+This demo script will run the RabbitMQon on a docker container. Docker has to be manually install on your machine. 
+More info about how to install [Docker](https://docs.docker.com/engine/install/ubuntu/)
+
 1: create a conda env and install the package using setup.py
 
     conda create -n mobility python=3
