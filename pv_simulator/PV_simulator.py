@@ -45,7 +45,7 @@ class PV_simulator:
                  broker: Broker,
                  max_pv: float,
                  delta_time: int,
-                 out_folder: str="") -> None:
+                 out_folder: str=None) -> None:
         """
         :param address: address of a broker (e.g: 'localhost' or IP address)
         :param queue_name: Name of the rabbitMQ queue
@@ -62,7 +62,7 @@ class PV_simulator:
 
         # Set folder and filename
         self.folder = out_folder if out_folder is not None and path.isdir(out_folder)else str(Path.home())
-        self.filename = "result_"+datetime.now().strftime("%m_%d_%Y %H_%M_%S").replace(" ","_")+".txt"
+        self.filename = path.join(self.folder,"result_"+datetime.now().strftime("%m_%d_%Y %H_%M_%S").replace(" ","_")+".txt")
 
         # create a value for each second of the day
         self.simulated_data =  [gauss(i, self.max_pv_value, 13, np.sqrt(6)) for i in np.linspace(0, 24, 24 * 60 * 60)]
