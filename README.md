@@ -3,7 +3,7 @@ System that collects every 'n' seconds data from a Meter, which generates random
 
 The following picture of a real PV power output curve during a normal day.
 
-![Image of real_data](https://github.com/lucalusn/mobility/blob/main/real_20curve.png)
+![Image of real_data](https://github.com/lucalusn/mobility/blob/main/real_curve.png)
  
 The following picture represent the simulated PV power output curve
 
