@@ -11,6 +11,8 @@ from pathlib import Path
 import numpy as np
 from datetime import datetime
 from pv_simulator.Broker import Broker
+from typing import Dict
+from pandas import DataFrame
 
 
 def get_sec(t)->int:
@@ -75,13 +77,17 @@ class PV_simulator:
         """
         self.broker.close()
 
-    def write_on_file(self):
+    def write_on_file(self,data:Dict):
         """
+        :param data: values
         Save data to the file
         """
         if not path.exists(self.filename):
-            with open(self.filename, 'a') as write:
-                write.write("Timestamp\tMeter_value\tPV_value\tCombined_Value\n")
+            with open(self.filename, 'w') as f:
+                f.write("Timestamp\nMeter_value\nPV_value\nCombined_Value\n\n")
+        df = DataFrame(columns=['Timestamp', "Meter_value", "PV_value", "Combined_Value"])
+        df.loc[0] = list(data.values())
+        df.to_csv(self.filename, sep='\t', index=False, header=False, mode='a')
 
 
     def process_message(self,msg:str)->None:
@@ -89,4 +95,6 @@ class PV_simulator:
         Callback function for receiving the message from the message queue
         :param msg: message got from the queue
         """
-        pass
+        # todo get the message and call write_on_file
+        data ={"time_stamp":datetime.now(), "meter":0, "PV":0, "tot":0}
+        self.write_on_file(data=data)

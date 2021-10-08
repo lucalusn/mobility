@@ -35,7 +35,8 @@ setup(
     author='Lusnig Luca',
     install_requires=[
         "pika == 1.2.0",
-        "numpy"
+        "numpy",
+        "pandas"
     ],
     author_email='lusnig.luca@gmail.com',
     description='System that generates simulated photovoltaic power values in kW',
