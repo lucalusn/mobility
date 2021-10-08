@@ -1,4 +1,4 @@
-###### General:
+## General:
 System that collects every 'n' seconds data from a Meter, which generates random values between 0-9kW for mocking a regular home power consumption, generates simulated PV (photovoltaic) power values (in kW) and write these results on file.
 
 The following picture of a real PV power output curve during a normal day.
@@ -10,7 +10,7 @@ The following picture represent the simulated PV power output curve
 ![Image of simulated_data](https://github.com/lucalusn/mobility/blob/main/simulated_data_PV.png)
 
 
-###### Architecture:
+## Architecture:
 
 * **Meter** produces messages to the broker with random but continuous values from 0 to 9000 Watts.This is to mock a regular home power consumption.
 
@@ -24,7 +24,7 @@ The following diagram exemplifies the interactions between the components
 
 ![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/architecture.png)
 
-###### How to install:
+## How to install:
 1: create a conda env and install the package using setup.py
 
     conda create -n mobility python=3
@@ -40,13 +40,13 @@ The following diagram exemplifies the interactions between the components
     python setup.py sdist
     pip install dist/mobility-X.Y.Z.tar.gz    
 
-###### Example of use:
+## Example of use:
 
 Just run the main
 
     pv_main 
     
-###### Parameters meaning
+## Parameters meaning
     -p1: 
     -p2:
 
