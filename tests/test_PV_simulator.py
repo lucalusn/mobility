@@ -9,8 +9,8 @@ class gauss_test(unittest.TestCase):
 
 class get_sec_test(unittest.TestCase):
     def test_get_sec(self):
-        self.assertEqual(53759,PV_simulator.get_sec(datetime(year=2020, month=11, day=28, hour=14, minute=55, second=59).strftime("%m-%d-%Y %H:%M:%S")))
-        self.assertEqual(0,PV_simulator.get_sec(datetime(year=2020, month=11, day=28, hour=0, minute=0, second=0).strftime("%m-%d-%Y %H:%M:%S")))
+        self.assertEqual(53759,PV_simulator.get_sec(datetime(year=2020, month=11, day=28, hour=14, minute=55, second=59).strftime("%m-%d-%Y %H_%M_%S")))
+        self.assertEqual(0,PV_simulator.get_sec(datetime(year=2020, month=11, day=28, hour=0, minute=0, second=0).strftime("%m-%d-%Y %H_%M_%S")))
 
 
 if __name__ == '__main__':

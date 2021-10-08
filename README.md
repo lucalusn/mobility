@@ -18,7 +18,8 @@ The following picture represent the simulated PV power output curve
 
 * **PV simulator** listens to the broker for the meter values, generate a simulated PV power value and adds this value to the meter value and output the result.
 
-* **Output** is the save on file step. The result are collected every couple of seconds in the following format (timestamp, meter power value, PVpower valueand the sum of the powers (meter + PV)).
+* **Output** is the save on file step. The result are collected every couple of seconds in the following format (timestamp, meter power value, PVpower valueand the sum of the powers (meter + PV)). 
+The filename will be generated automatically from the script in function of the execution time. Name format: logfile_month_day_year_hour_min_sec.log
 
 The following diagram exemplifies the interactions between the components
 
