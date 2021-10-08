@@ -34,7 +34,8 @@ setup(
     license='MIT',
     author='Lusnig Luca',
     install_requires=[
-        "pika"
+        "pika == 1.2.0",
+        "numpy"
     ],
     author_email='lusnig.luca@gmail.com',
     description='System that generates simulated photovoltaic power values in kW',
