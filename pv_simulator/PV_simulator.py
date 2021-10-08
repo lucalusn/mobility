@@ -13,6 +13,8 @@ from datetime import datetime
 from pv_simulator.Broker import Broker
 from typing import Dict
 from pandas import DataFrame
+from aio_pika import IncomingMessage
+from json import loads
 
 
 def get_sec(t)->int:
@@ -77,24 +79,29 @@ class PV_simulator:
         """
         self.broker.close()
 
-    def write_on_file(self,data:Dict):
+    async def write_on_file(self,data:Dict):
         """
         :param data: values
         Save data to the file
         """
         if not path.exists(self.filename):
             with open(self.filename, 'w') as f:
-                f.write("Timestamp\nMeter_value\nPV_value\nCombined_Value\n\n")
-        df = DataFrame(columns=['Timestamp', "Meter_value", "PV_value", "Combined_Value"])
+                f.write("Timestamp\nMeter_value\nPV_value\nTot_value\n\n")
+        df = DataFrame(columns=['Timestamp', "Meter_value", "PV_value", "Tot_value"])
         df.loc[0] = list(data.values())
         df.to_csv(self.filename, sep='\t', index=False, header=False, mode='a')
 
 
-    def process_message(self,msg:str)->None:
+    async def process_message(self,msg:IncomingMessage)->None:
         """
         Callback function for receiving the message from the message queue
+        The message is a dict with keys: 'Timestamp' and 'Meter_value'
         :param msg: message got from the queue
         """
-        # todo get the message and call write_on_file
-        data ={"time_stamp":datetime.now(), "meter":0, "PV":0, "tot":0}
-        self.write_on_file(data=data)
+        msg = loads(msg.body.decode('utf-8'))
+        pv_value = self.simulated_data[ get_sec(t=msg['Timestamp']) ]
+        data ={'Timestamp': msg['Timestamp'],
+               'Meter_value': msg['Meter_value'],
+               'PV_value': pv_value,
+               'Tot_value': pv_value + msg['Meter_value']}
+        await self.write_on_file(data=data)

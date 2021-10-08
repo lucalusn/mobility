@@ -39,7 +39,8 @@ class Meter:
         Continuously sends messages to the Broker
         """
         while True:
-            msg = {datetime.now().strftime("%m-%d-%Y %H_%M_%S"): random.uniform(self.min_power, self.max_power)}
+            msg = {"Timestamp":datetime.now().strftime("%m-%d-%Y %H_%M_%S"),
+                   "Meter_value": random.uniform(self.min_power, self.max_power)}
             try:
                 await self.broker.publish_msg(dumps(msg))
                 await asyncio.sleep(self.delta_time)
