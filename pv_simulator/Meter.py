@@ -5,6 +5,7 @@ This is to mock a regular home power consumption
 
 from pv_simulator.Broker import Broker
 from numpy import random
+from datetime import datetime
 
 class Meter:
     def __init__(self, min_power:float, max_power:float, delta_time: int, broker:Broker)->None:
@@ -36,4 +37,4 @@ class Meter:
         Continuously sends messages to the Broker
         """
         while True:
-            msg = random.uniform(self.min_power, self.max_power)
+            msg = {datetime.now().strftime("%m-%d-%Y %H_%M_%S"):random.uniform(self.min_power, self.max_power)}
