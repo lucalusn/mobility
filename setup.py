@@ -33,8 +33,8 @@ setup(
     url='',
     license='MIT',
     author='Lusnig Luca',
-    install_requires=[
-        "pika == 1.2.0",
+    install_requires=[                # since i am using basic function of numpy and pandas i do not pin theirs version
+        "aio-pika == 6.8.0",
         "numpy",
         "pandas"
     ],
