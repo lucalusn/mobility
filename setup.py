@@ -45,7 +45,6 @@ setup(
     long_description_content_type='text/markdown',
     entry_points={
         'console_scripts': [
-            'pv_main.py = runner.pv_main:run_main',
             'run_meter.py = runner.run_meter:run_meter',
             'run_PV_simulator.py = runner.run_PV_simulator:run_PV'
         ]},
