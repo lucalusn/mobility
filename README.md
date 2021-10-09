@@ -48,7 +48,9 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 
 1. Run the **docker-compose up -d** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a **docker-compose.yaml** file.
 
-2. run  the script **pv_main.py -c /home/progetti/mobility/runner/demo_cfg_rabbitMQ.json -v /home/progetti/mobility/runner/demo_cfg_services.json** 
+2. run in in separate terminals the following scripts
+    - **run_meter.py -c /home/progetti/mobility/runner/demo_cfg_rabbitMQ.json -v /home/progetti/mobility/runner/demo_cfg_services.json** 
+    - **run_PV_Simulator.py -c /home/progetti/mobility/runner/demo_cfg_rabbitMQ.json -v /home/progetti/mobility/runner/demo_cfg_services.json**
 
 3. Run the **docker-compose down** command in a terminal for closing the rabbitMQ
     
