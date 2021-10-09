@@ -40,23 +40,20 @@ def gauss(x:float, A:float, mu:float, sigma:float)->float:
 
 
 class PV_simulator:
-    def __init__(self, address: str,
-                 queue_name: str,
+    def __init__(self,
                  broker: Broker,
                  max_pv: float,
                  delta_time: int,
                  out_folder: str=None) -> None:
         """
-        :param address: address of a broker (e.g: 'localhost' or IP address)
-        :param queue_name: Name of the rabbitMQ queue
         :param broker: Broker obj
         :param max_pv: maximum power value
         :param delta_time: time between the creation of two consecutive messages
         :param out_folder: output folder where the data will be saved.
         """
-        self.address = address
-        self.queue_name = queue_name
         self.broker = broker
+        self.address = broker.address
+        self.queue_name = broker.queue_name
         self.max_pv_value = max_pv
         self.delay_time = delta_time
 

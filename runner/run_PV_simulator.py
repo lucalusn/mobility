@@ -7,9 +7,7 @@ async def main_pv():
 	cfg_services = arg_parser.get_cfg_services(args.services_param)
 	broker = Broker.Broker(address=cfg_rabbit['address'], queue_name=cfg_rabbit['queue_name'])
 
-	simulator = PV_simulator.PV_simulator(address=cfg_rabbit['address'],
-										  queue_name=cfg_rabbit['queue_name'],
-										  broker=broker,
+	simulator = PV_simulator.PV_simulator(broker=broker,
 										  max_pv=cfg_services['pv_max_power'] / 1000,
 										  delta_time=cfg_services['delta_time'],
 										  out_folder=cfg_services['output_folder'])
