@@ -5,3 +5,4 @@ pandas
 coverage
 pytest
 pytest-cov
+python-coveralls

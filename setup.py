@@ -40,7 +40,8 @@ setup(
         "pandas",
         "coverage",
         "pytest",
-        "pytest-cov"
+        "pytest-cov",
+        "python-coveralls"
     ],
     author_email='lusnig.luca@gmail.com',
     description='System that generates simulated photovoltaic power values in kW',
