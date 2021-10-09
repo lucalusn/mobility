@@ -1,11 +1,11 @@
 ## General:
 System that collects every 'n' seconds data from a Meter, which generates random values between 0-9kW for mocking a regular home power consumption, generates simulated PV (photovoltaic) power values (in kW) and write these results on file.
 
-The following picture of a real PV power output curve during a normal day.
+The following picture represents the real PV power output curve during a normal day.
 
 ![Image of real_data](https://github.com/lucalusn/mobility/blob/main/images/real_curve.png)
  
-The following picture represent the simulated PV power output curve
+The following picture represents the simulated PV power output curve
 
 ![Image of simulated_data](https://github.com/lucalusn/mobility/blob/main/images/simulated_data_PV.png)
 
@@ -18,8 +18,8 @@ The following picture represent the simulated PV power output curve
 
 * **PV simulator** listens to the broker for the meter values, generate a simulated PV power value and adds this value to the meter value and output the result.
 
-* **Output** is the save on file step. The result are collected every couple of seconds in the following format (timestamp, meter power value, PVpower valueand the sum of the powers (meter + PV)). 
-The filename will be generated automatically from the script in function of the execution time in the folder specified by the user. If the folder does not exist the result will be saved in the HOME directory. Name format: logfile_month_day_year_hour_min_sec.log
+* **Output** is the save on file step. The result are collected every couple of seconds in the following format (timestamp, meter power value, PV power value and the sum of the powers (meter + PV)). 
+The filename will be generated automatically from the script in function of the starting time in the folder specified by the user. If the folder does not exist the result will be saved in the $HOME directory. Name format: result_<month>_<day>_<year>_<hour>_<min>_<sec>.txt
 
 The following diagram exemplifies the interactions between the components
 
@@ -48,9 +48,9 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 
 1. Run the **docker-compose up -d** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a **docker-compose.yaml** file.
 
-2. run in in separate terminals the following scripts
-    - **run_meter.py -c /home/progetti/mobility/runner/demo_cfg_rabbitMQ.json -v /home/progetti/mobility/runner/demo_cfg_services.json** 
-    - **run_PV_Simulator.py -c /home/progetti/mobility/runner/demo_cfg_rabbitMQ.json -v /home/progetti/mobility/runner/demo_cfg_services.json**
+2. run in in separate terminals the following scripts (NB: the scripts are in the **/<path_to_your_conda/envs/mobility/bin/** folder)
+    - **run_meter.py -c /home/mobility/runner/demo_cfg_rabbitMQ.json -v /home/mobility/runner/demo_cfg_services.json** 
+    - **run_PV_Simulator.py -c /home/mobility/runner/demo_cfg_rabbitMQ.json -v /home/mobility/runner/demo_cfg_services.json**
 
 3. Run the **docker-compose down** command in a terminal for closing the rabbitMQ
     
