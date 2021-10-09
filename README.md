@@ -1,3 +1,6 @@
+[![Build Status](https://app.travis-ci.com/lucalusn/mobility.svg?branch=main)](https://app.travis-ci.com/github/lucalusn/mobility)
+[![codecov](https://codecov.io/gh/lucalusn/mobility/branch/main/graph/badge.svg?token=IC77RKXPWO)](https://codecov.io/gh/lucalusn/mobility)
+
 ## General:
 System that collects every 'n' seconds data from a Meter, which generates random values between 0-9kW for mocking a regular home power consumption, generates simulated PV (photovoltaic) power values (in kW) and write these results on file.
 
