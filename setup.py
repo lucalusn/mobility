@@ -37,7 +37,10 @@ setup(
         "aio-pika == 6.8.0",
         "asyncio == 3.4.3",
         "numpy",
-        "pandas"
+        "pandas",
+        "coverage",
+        "pytest",
+        "pytest-cov"
     ],
     author_email='lusnig.luca@gmail.com',
     description='System that generates simulated photovoltaic power values in kW',

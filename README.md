@@ -49,11 +49,29 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 1. Run the **docker-compose up -d** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a **docker-compose.yaml** file.
 
 2. run in in separate terminals the following scripts (NB: the scripts are in the **/<path_to_your_conda/envs/mobility/bin/** folder)
-    - **run_meter.py -c /home/mobility/runner/demo_cfg_rabbitMQ.json -v /home/mobility/runner/demo_cfg_services.json** 
-    - **run_PV_Simulator.py -c /home/mobility/runner/demo_cfg_rabbitMQ.json -v /home/mobility/runner/demo_cfg_services.json**
+    - **run_meter.py -c <path_to_the_repo>/runner/demo_cfg_rabbitMQ.json -v <path_to_the_repo>/runner/demo_cfg_services.json** 
+    - **run_PV_Simulator.py -c <path_to_the_repo>/runner/demo_cfg_rabbitMQ.json -v <path_to_the_repo>/runner/demo_cfg_services.json**
 
 3. Run the **docker-compose down** command in a terminal for closing the rabbitMQ
-    
+
+## Tests coverage
+For running the tests and show the result to the terminal:
+python -m pytest -v <path_to_the_repo>/tests --cov-report term --cov= <path_to_the_repo>/pv_simulator
+
+Actual coverage:
+
+        Name                           Stmts   Miss  Cover
+    --------------------------------------------------
+    pv_simulator/Broker.py            28     20    29%
+    pv_simulator/Meter.py             23     13    43%
+    pv_simulator/PV_simulator.py      44     22    50%
+    pv_simulator/__init__.py           1      0   100%
+    pv_simulator/arg_parser.py        34     34     0%
+    --------------------------------------------------
+    TOTAL                            130     89    32%
+
+
+
 ## Parameters meaning
     -c: path to the json file containing the rabbitMQ access parameters. It is mandatory. List of fields
         * 'address' is the address of the rabbitMQ service
