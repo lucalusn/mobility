@@ -46,13 +46,19 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 
 ## Example of use:
 
-1. Run the **docker-compose up -d** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a *docker-compose.yaml* file.
+1. Run the **docker-compose up -d** command in a terminal for starting the rabbitMQ, wait for the command to complete its execution. You have to be in the same directory of a **docker-compose.yaml** file.
 
-2. run  the script **pv_main.py** 
+2. run  the script **pv_main.py -c demo_cfg_rabbitMQ.json -v demo_cfg_services.json** 
 
 3. Run the **docker-compose down** command in a terminal for closing the rabbitMQ
     
 ## Parameters meaning
-    -p1: 
-    -p2:
-
+    -c: path to the json file containing the rabbitMQ access parameters. It is mandatory. List of fields
+        * 'address' is the address of the rabbitMQ service
+        * 'queue_name' is the name of the queue
+    -v: path to the json file containing the services (Meter and PV simulator) access parameters. List of fields:
+        * 'pv_max_power' is the estimated maximum photovoltaic value expressed in watt. Default value is 3400[W]
+        * 'meter_max_power' is the estimated maximum home power consumption  value expressed in watt. Default value is 90000[W]
+        * 'meter_min_power' is the estimated minimum home power consumption value expressed in watt. Default value is 0[W]
+        * 'output_folder' is the path to the folder where the output file will be saved. Default value is ''
+        * 'frequency' is the time between the creation/consumption of two consecutive messages
