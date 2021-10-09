@@ -6,4 +6,4 @@ install:
 script:
   - python -m pytest -v tests --cov-report term --cov=pv_simulator
 after_success:
-  - coveralls
+  - codecov
