@@ -4,5 +4,3 @@ python:
 install: "pip install -r requirements.txt"
 script:
   - python -m pytest -v tests --cov-report term --cov= pv_simulator
-after_success:
-  - coveralls
