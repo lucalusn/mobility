@@ -1,0 +1,7 @@
+aio_pika == 6.8.0
+asyncio == 3.4.3
+numpy
+pandas
+coverage
+pytest
+pytest-cov
