@@ -14,8 +14,8 @@ async def main_pv():
 	try:
 		await simulator.connect_to_broker()  # Enable the connection between Simulator & Broker
 		await simulator.consume_data()  # Start consuming data from queue
-	finally:
-		await simulator.disconnect_to_broker()
+	except :
+		pass
 
 
 def run_PV():
