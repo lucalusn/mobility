@@ -63,15 +63,16 @@ python -m pytest -v <path_to_the_repo>/tests --cov-report term --cov= <path_to_t
 
 Actual coverage:
 
-        Name                           Stmts   Miss  Cover
-    --------------------------------------------------
-    pv_simulator/Broker.py            28     20    29%
-    pv_simulator/Meter.py             23     13    43%
-    pv_simulator/PV_simulator.py      44     22    50%
-    pv_simulator/__init__.py           1      0   100%
-    pv_simulator/arg_parser.py        34     34     0%
-    --------------------------------------------------
-    TOTAL                            130     89    32%
+    Name                                            Stmts   Miss  Cover
+    -------------------------------------------------------------------
+    /home/mobility/pv_simulator/Broker.py            31      0   100%
+    /home/mobility/pv_simulator/Meter.py             25      3    88%
+    /home/mobility/pv_simulator/PV_simulator.py      44      0   100%
+    /home/mobility/pv_simulator/__init__.py           1      0   100%
+    /home/mobility/pv_simulator/arg_parser.py        34      4    88%
+    -------------------------------------------------------------------
+    TOTAL                                           135      7    95%
+    
 
 
 
