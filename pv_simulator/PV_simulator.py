@@ -84,7 +84,7 @@ class PV_simulator:
         """
         if not path.exists(self.filename):
             with open(self.filename, 'w') as f:
-                f.write("Timestamp [kW]\nMeter_value [kW]\nPV_value [kW]\nTot_value [kW]\n\n")
+                f.write("Timestamp \nMeter_value [kW]\nPV_value [kW]\nTot_value [kW]\n\n")
         df = DataFrame(columns=['Timestamp', "Meter_value", "PV_value", "Tot_value"])
         df.loc[0] = list(data.values())
         df.to_csv(self.filename, sep='\t', index=False, header=False, mode='a')
