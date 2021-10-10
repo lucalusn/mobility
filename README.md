@@ -84,4 +84,4 @@ Actual coverage:
         * 'meter_max_power' is the estimated maximum home power consumption  value expressed in watt. Default value is 90000[W]
         * 'meter_min_power' is the estimated minimum home power consumption value expressed in watt. Default value is 0[W]
         * 'output_folder' is the path to the folder where the output file will be saved. Default value is ''
-        * 'frequency' is the time between the creation/consumption of two consecutive messages
+        * 'delta_time' is the time between the creation/consumption of two consecutive messages

@@ -13,7 +13,7 @@ example of cfg_services.json:   if it miss the script will use the following val
   "meter_max_power": 9000,
   "meter_min_power": 0,
   "output_folder": "",
-  "frequency": 2
+  "delta_time": 2
 }
 
 """
@@ -28,7 +28,7 @@ PV_MAX_POWER = 3400
 METER_MAX_POWER = 9000
 METER_MIN_POWER = 0
 OUTPUT_FOLDER = ""
-FREQUENCY = 5
+DELTA_TIME = 5
 
 def create_parser():
     """
@@ -49,7 +49,7 @@ def get_service_default_param()->Dict:
             "meter_max_power": METER_MAX_POWER,
             "meter_min_power": METER_MIN_POWER,
             "output_folder": OUTPUT_FOLDER,
-            "frequency": FREQUENCY }
+            "delta_time": DELTA_TIME }
 
 def get_cfg_rabbitMQ(f:str)->Dict:
     """
