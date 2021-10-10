@@ -29,7 +29,7 @@ The following diagram exemplifies the interactions between the components
 ![Image of system architecture](https://github.com/lucalusn/mobility/blob/main/images/architecture.png)
 
 ## How to install:
-This demo script will run the RabbitMQon on a docker container. **Docker** and **Docker-compose** have to be manually install on your machine. 
+This demo script will run the RabbitMQ on a docker container. **Docker** and **Docker-compose** have to be manually install on your machine. 
 More info about how to install [Docker](https://docs.docker.com/engine/install/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/)
 
 1: create a conda env and install the package using setup.py
@@ -59,6 +59,7 @@ More info about how to install [Docker](https://docs.docker.com/engine/install/u
 
 ## Tests coverage
 For running the tests and show the result to the terminal:
+
 python -m pytest -v <path_to_the_repo>/tests --cov-report term --cov= <path_to_the_repo>/pv_simulator
 
 Actual coverage:
