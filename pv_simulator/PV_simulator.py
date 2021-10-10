@@ -16,6 +16,7 @@ from pandas import DataFrame
 from aio_pika import IncomingMessage
 from json import loads
 import asyncio
+from logging import Logger
 
 
 def get_sec(t)->int:
@@ -44,13 +45,16 @@ class PV_simulator:
                  broker: Broker,
                  max_pv: float,
                  delta_time: int,
-                 out_folder: str=None) -> None:
+                 out_folder: str=None,
+                 logger:Logger=None) -> None:
         """
         :param broker: Broker obj
         :param max_pv: maximum power value
         :param delta_time: time between the creation of two consecutive messages
         :param out_folder: output folder where the data will be saved.
+        :param logger: logger obj
         """
+        self.logger = logger
         self.broker = broker
         self.address = broker.address
         self.queue_name = broker.queue_name
@@ -69,12 +73,14 @@ class PV_simulator:
         """
         Create a connection with the broker
         """
+        self.logger.info("PV_simulator trying to connect to broker")
         await self.broker.connect()
 
     async def disconnect_to_broker(self):
         """
         close the connection with the broker
         """
+        self.logger.info("PV_simulator trying to disconnect to broker")
         await self.broker.close()
 
     async def write_on_file(self,data:Dict):

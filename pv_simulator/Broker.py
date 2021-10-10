@@ -5,17 +5,21 @@ It receives messages from 'Meter' and sends them to 'PV_simulator'
 import aio_pika
 from typing import Callable
 
+from logging import Logger
+
 class Broker:
-    def __init__(self,address: str, queue_name:str)->None:
+    def __init__(self,address: str, queue_name:str, logger:Logger=None)->None:
         """
         :param address: address of a broker (e.g: 'localhost' or IP address)
         :param queue_name: Name of the rabbitMQ queue
+        :param logger: logger obj
         """
         self.address = address
         self.queue_name = queue_name
         self.connection = None
         self.channel = None
         self.message_queue = None
+        self.logger=logger
 
     async def connect(self)->bool:
         """
@@ -26,8 +30,10 @@ class Broker:
             self.connection = await aio_pika.connect(self.address)
             self.channel = await self.connection.channel()
             self.message_queue = await self.channel.declare_queue(self.queue_name)
+
+            self.logger.info("broker connected")
         except Exception as e:
-            print (f"Not enable to create the connection because '{e}' exception")
+            self.logger.error (f"Not enable to create the connection because '{e}' exception")
             raise e
         return True
 
@@ -39,9 +45,10 @@ class Broker:
         if self.connection:
             try:
                 await self.connection.close()
+                self.logger.info("broker closed")
                 return True
             except Exception as e:
-                print(f"Not enable to close the connection because '{e}' exception")
+                self.logger.error(f"Not enable to close the connection because '{e}' exception")
                 raise e
         return False
 

@@ -4,9 +4,17 @@ from pv_simulator import Meter,Broker
 from datetime import datetime
 from json import loads
 
+import logging
+
+logging.basicConfig(filename="logger.log",
+					format='%(asctime)s %(message)s',
+					filemode='w')
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 class invalid_Broker_param_test(unittest.TestCase):
-    broker = Broker.Broker(address='invalid_add', queue_name='queue_name')
-    meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker)
+    broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
+    meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
 
     def test_unable_to_connect(self):
         with self.assertRaises(Exception) as e:
@@ -21,8 +29,8 @@ class invalid_Broker_param_test(unittest.TestCase):
 
 class fake_connection_to_close_test(unittest.TestCase):
     def test_fake_connection_to_close(self):
-        broker = Broker.Broker(address='invalid_add', queue_name='queue_name')
-        meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker)
+        broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
+        meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
         loop = asyncio.get_event_loop()
         meter.broker.connection = True
         with self.assertRaises(Exception) as e:
@@ -31,8 +39,8 @@ class fake_connection_to_close_test(unittest.TestCase):
 
 
 class valid_param_test(unittest.TestCase):
-    broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova')
-    meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker)
+    broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova', logger=logger)
+    meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
 
     def test_enable_to_connect_and_close(self):
         loop = asyncio.get_event_loop()
