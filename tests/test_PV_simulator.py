@@ -1,8 +1,8 @@
 import unittest
-from pv_simulator import PV_simulator, Broker
+from pv_simulator import PV_simulator, Broker, Meter
 from datetime import datetime
 import asyncio
-from os import remove
+from os import remove,path
 
 
 class gauss_test(unittest.TestCase):
@@ -51,6 +51,7 @@ class fake_connection_to_close_test(unittest.TestCase):
 
 class valid_param_test(unittest.TestCase):
     broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova')
+    meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker)
     simulator = PV_simulator.PV_simulator(broker=broker,
                                           max_pv=3.4,
                                           delta_time=2,
@@ -78,6 +79,32 @@ class valid_param_test(unittest.TestCase):
         loop.run_until_complete(self.simulator.write_on_file(data=data))
         remove(self.simulator.filename)
 
+    def test_consume_data(self):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.meter.open_connection())
+        loop.run_until_complete(self.simulator.connect_to_broker())
+
+        # send message by meter
+        loop.run_until_complete(self.meter.send_messages(only_one=True))
+
+        # consume message
+        loop.run_until_complete(self.simulator.consume_data())
+
+        # check if the file has been created
+        self.assertTrue(path.isfile(self.simulator.filename))
+
+        if path.isfile(self.simulator.filename):
+            f = open(self.simulator.filename, "r")
+            lines = f.readlines()
+            self.assertTrue("Timestamp" in lines[0])
+            self.assertTrue("Meter_value" in lines[1])
+            self.assertTrue("PV_value" in lines[2])
+            self.assertTrue("Tot_value" in lines[3])
+            today=str(datetime.now().strftime("%m-%d-%Y %H_%M_%S")).split(" ")[0]
+            date_saved_msg = lines[5].split('\t')[0].split(" ")[0]
+            self.assertEqual(today,date_saved_msg)   # if True it wrote the message
+            f.close()
+            remove(self.simulator.filename)
 
 if __name__ == '__main__':
     unittest.main()
