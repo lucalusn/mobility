@@ -2,6 +2,8 @@ import unittest
 import asyncio
 from pv_simulator import Broker
 from aio_pika import IncomingMessage
+from datetime import datetime
+from json import dumps,loads
 
 
 class invalid_param_test(unittest.TestCase):
@@ -53,11 +55,11 @@ class valid_param_test(unittest.TestCase):
         loop = asyncio.get_event_loop()
         self.assertTrue(loop.run_until_complete(self.broker.connect()))
 
-        msg = "generic message"
-        loop.run_until_complete(self.broker.publish_msg(msg=msg))
+        msg  = {'Timestamp':str(datetime.now().strftime("%m-%d-%Y %H_%M_%S")),'Meter_value': 1}
+        loop.run_until_complete(self.broker.publish_msg(msg=dumps(msg)))
         published_message = loop.run_until_complete( self.broker.message_queue.get(timeout=5))
-
-        self.assertEqual(msg,str(published_message.body, 'UTF-8'))
+        body=loads(published_message.body.decode('utf-8'))
+        self.assertEqual(msg['Meter_value'],body['Meter_value'])
         self.assertTrue(loop.run_until_complete(self.broker.close()))
 
     def test_consume_message(self):
@@ -73,8 +75,8 @@ class valid_param_test(unittest.TestCase):
         loop = asyncio.get_event_loop()
         self.assertTrue(loop.run_until_complete(self.broker.connect()))
 
-        msg = "message to consume"
-        loop.run_until_complete(self.broker.publish_msg(msg=msg))
+        msg  = {'Timestamp':str(datetime.now().strftime("%m-%d-%Y %H_%M_%S")),'Meter_value': 1}
+        loop.run_until_complete(self.broker.publish_msg(msg=dumps(msg)))
 
         loop.run_until_complete(self.broker.consume_msg(process_message))
 

@@ -34,16 +34,19 @@ class Meter:
         """
         await self.broker.close()
 
-    async def send_messages(self)->None:
+    async def send_messages(self, only_one:bool = False)->None:
         """
+        :param only_one: Flag to send only one message
         Continuously sends messages to the Broker
         """
         while True:
-            msg = {"Timestamp":datetime.now().strftime("%m-%d-%Y %H_%M_%S"),
-                   "Meter_value": random.uniform(self.min_power, self.max_power)}
+            msg = {'Timestamp':str(datetime.now().strftime("%m-%d-%Y %H_%M_%S")),
+                   'Meter_value': random.uniform(self.min_power, self.max_power)}
             try:
                 await self.broker.publish_msg(dumps(msg))
                 await asyncio.sleep(self.delta_time)
             except Exception as e:
                 print(f"Not enable to publish message '{msg}' because '{e}' exception")
                 raise e
+            if only_one:
+                break
