@@ -1,0 +1,7 @@
+{
+  "pv_max_power": 3400,
+  "meter_max_power": 9000,
+  "meter_min_power": 0,
+  "output_folder": "",
+  "delta_time": 2
+}

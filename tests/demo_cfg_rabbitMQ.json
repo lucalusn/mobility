@@ -1,0 +1,4 @@
+{
+  "address": "amqp://guest:guest@localhost:5672/",
+  "queue_name": "prova"
+}
