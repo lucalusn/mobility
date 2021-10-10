@@ -52,13 +52,17 @@ class valid_param_test(unittest.TestCase):
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self.meter.open_connection())
 
+        # send message
         loop.run_until_complete(self.meter.send_messages(only_one=True))
 
+        # read sent message
         published_message = loop.run_until_complete( self.meter.broker.message_queue.get(timeout=5))
         h_ts,min_ts,sec_ts = loads(published_message.body.decode('utf-8'))['Timestamp'].split(" ")[1].split("_")
         tot_sec_ts = int(sec_ts) + int(min_ts) * 60 + int(h_ts) * 24
         now=datetime.now().strftime("%m-%d-%Y %H_%M_%S")
         h_now,min_now,sec_now=now.split(" ")[1].split("_")
+
+        # compare the time (in second) Do not run it at the turn of midnight ( :P)
         self.assertTrue(tot_sec_ts < int(sec_now) + int(min_now) * 60 + int(h_now) * 24 < tot_sec_ts+30)
         loop.run_until_complete(self.meter.broker.consume_msg(process_message))
         loop.run_until_complete(self.meter.close_connection())
