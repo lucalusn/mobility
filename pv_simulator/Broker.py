@@ -17,7 +17,7 @@ class Broker:
         self.channel = None
         self.message_queue = None
 
-    async def connect(self)->None:
+    async def connect(self)->bool:
         """
         Create the connection and declare the queue
         In case it is not possible to create the connection an error message will explain the reason
@@ -29,8 +29,9 @@ class Broker:
         except Exception as e:
             print (f"Not enable to create the connection because '{e}' exception")
             raise e
+        return True
 
-    async def close(self)->None:
+    async def close(self)->bool:
         """
         Closes the connection between Meter and PV_simulator
         In case it is not possible to close the connection an error message will explain the reason
@@ -38,9 +39,11 @@ class Broker:
         if self.connection:
             try:
                 await self.connection.close()
+                return True
             except Exception as e:
                 print(f"Not enable to close the connection because '{e}' exception")
                 raise e
+        return False
 
     async def publish_msg(self, msg:str)->None:
         """
