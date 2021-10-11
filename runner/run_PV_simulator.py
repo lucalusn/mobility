@@ -6,10 +6,12 @@ import logging
 from datetime import datetime
 
 async def main_pv():
+	# collect data from cli
 	args = arg_parser.create_parser().parse_args()
 	cfg_rabbit = arg_parser.get_cfg_rabbitMQ(args.config_rabbitMQ)
 	cfg_services = arg_parser.get_cfg_services(args.services_param)
 
+	# create a logger for the PV_simulator
 	logger_folder= cfg_services['output_folder'] if cfg_services['output_folder'] is not None and path.isdir(cfg_services['output_folder']) else str(Path.home())
 	logging.basicConfig(filename=path.join(logger_folder,'logger_pv_simulator_'+datetime.now().strftime("%m_%d_%Y %H_%M_%S").replace(" ","_")+".log"),
 						format='%(asctime)s %(message)s',
@@ -17,13 +19,15 @@ async def main_pv():
 	logger = logging.getLogger()
 	logger.setLevel(logging.INFO)
 
+	# create broker and simulator objs
 	broker = Broker.Broker(address=cfg_rabbit['address'], queue_name=cfg_rabbit['queue_name'],logger=logger)
-
 	simulator = PV_simulator.PV_simulator(broker=broker,
 										  max_pv=cfg_services['pv_max_power'] / 1000,
 										  delta_time=cfg_services['delta_time'],
 										  out_folder=cfg_services['output_folder'],
 										  logger=logger)
+
+	# open the connection to the rabbitMQ and start to consume messages
 	try:
 		await simulator.connect_to_broker()  # Enable the connection between Simulator & Broker
 		await simulator.consume_data()  # Start consuming data from queue

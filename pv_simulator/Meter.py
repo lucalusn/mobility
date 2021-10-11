@@ -47,11 +47,15 @@ class Meter:
         while True:
             msg = {'Timestamp':str(datetime.now().strftime("%m-%d-%Y %H_%M_%S")),
                    'Meter_value': random.uniform(self.min_power, self.max_power)}
+
+            # send the message and wait before sending the next one
             try:
                 await self.broker.publish_msg(dumps(msg))
                 await asyncio.sleep(self.delta_time)
             except Exception as e:
                 self.logger.error(f"PV_simulator not enable to publish message '{msg}' because '{e}' exception")
                 raise e
+
+            # in case we want send a single message (e.g.: for testing purpose)
             if only_one:
                 break

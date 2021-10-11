@@ -27,6 +27,7 @@ class Broker:
         In case it is not possible to create the connection an error message will explain the reason
         """
         try:
+            # connect to the rabbitMQ, create a channel  and declare the queue
             self.connection = await aio_pika.connect(self.address)
             self.channel = await self.connection.channel()
             self.message_queue = await self.channel.declare_queue(self.queue_name)
@@ -39,11 +40,12 @@ class Broker:
 
     async def close(self)->bool:
         """
-        Closes the connection between Meter and PV_simulator
+        Closes the connection
         In case it is not possible to close the connection an error message will explain the reason
         """
         if self.connection:
             try:
+                # close the connection
                 await self.connection.close()
                 self.logger.info("broker closed")
                 return True

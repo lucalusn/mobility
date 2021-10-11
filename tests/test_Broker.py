@@ -14,6 +14,9 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 class invalid_param_test(unittest.TestCase):
+    """
+    Test case of not valid configuration file
+    """
     broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
 
     def test_unable_to_connect(self):
@@ -31,6 +34,9 @@ class invalid_param_test(unittest.TestCase):
         self.assertFalse(loop.run_until_complete(self.broker.close()))
 
 class fake_connection_to_close_test(unittest.TestCase):
+    """
+    Test case of fake connection
+    """
     def test_fake_connection_to_close(self):
         broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
         loop = asyncio.get_event_loop()
@@ -43,6 +49,9 @@ class fake_connection_to_close_test(unittest.TestCase):
 
 
 class valid_param_test(unittest.TestCase):
+    """
+    Test real case scenario
+    """
     broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova', logger=logger)
 
     def test_enable_to_connect_and_close(self):

@@ -13,6 +13,9 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 class invalid_Broker_param_test(unittest.TestCase):
+    """
+    Test case of not valid configuration file
+    """
     broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
     meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
 
@@ -28,6 +31,9 @@ class invalid_Broker_param_test(unittest.TestCase):
 
 
 class fake_connection_to_close_test(unittest.TestCase):
+    """
+    Test case of fake connection
+    """
     def test_fake_connection_to_close(self):
         broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
         meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
@@ -39,6 +45,9 @@ class fake_connection_to_close_test(unittest.TestCase):
 
 
 class valid_param_test(unittest.TestCase):
+    """
+    Test real case scenario
+    """
     broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova', logger=logger)
     meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
 

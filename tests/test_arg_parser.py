@@ -3,7 +3,7 @@ import unittest
 from pv_simulator import arg_parser
 import pathlib
 from os import path
-import argparse
+
 
 CURRENT_DIR =pathlib.Path(__file__).parent.resolve()
 
@@ -20,6 +20,9 @@ class get_service_default_param_test(unittest.TestCase):
 
 
 class get_cfg_rabbitMQ_test(unittest.TestCase):
+    """
+    Test the collector of rabbitMQ configuration file
+    """
     def test_file_not_found(self):
         self.assertDictEqual(arg_parser.get_cfg_rabbitMQ(f="not_exist.json"), dict())
 
@@ -32,6 +35,9 @@ class get_cfg_rabbitMQ_test(unittest.TestCase):
 
 
 class get_cfg_services_test(unittest.TestCase):
+    """
+    Test the collector of meter and PV_simulator configuration file
+    """
     default_values = {
         "pv_max_power": 3400,
         "meter_max_power": 9000,

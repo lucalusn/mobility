@@ -7,23 +7,29 @@ from datetime import datetime
 
 
 async def main_meter():
+	# collect data from cli
 	args = arg_parser.create_parser().parse_args()
 	cfg_rabbit = arg_parser.get_cfg_rabbitMQ(args.config_rabbitMQ)
 	cfg_services = arg_parser.get_cfg_services(args.services_param)
 
+	# create a logger for the Meter
 	logger_folder = cfg_services['output_folder'] if cfg_services['output_folder'] is not None and path.isdir(cfg_services['output_folder']) else str(Path.home())
 	logging.basicConfig(filename=path.join(logger_folder, 'logger_meter._'+datetime.now().strftime("%m_%d_%Y %H_%M_%S").replace(" ","_")+".log"),
 						format='%(asctime)s %(message)s',
 						filemode='w')
+
 	logger = logging.getLogger()
 	logger.setLevel(logging.INFO)
+
+	# create broker and meter objs
 	broker = Broker.Broker(address=cfg_rabbit['address'], queue_name=cfg_rabbit['queue_name'],logger=logger)
 	meter = Meter.Meter(min_power=cfg_services['meter_min_power'], max_power=cfg_services['meter_max_power'],
 						broker=broker, delta_time=cfg_services['delta_time'], logger=logger)
 
+	# open the connection to the rabbitMQ and start to send messages
 	try:
 		await meter.open_connection()  # Open connection with the Broker
-		await meter.send_messages()    # Start sending data to queue
+		await meter.send_messages(only_one=False)    # Start sending data to queue
 	finally:
 		await meter.close_connection()
 
