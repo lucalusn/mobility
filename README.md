@@ -4,6 +4,8 @@
 ## General:
 System that collects every 'n' seconds data from a Meter, which generates random values between 0-9kW for mocking a regular home power consumption, generates simulated PV (photovoltaic) power values (in kW) and write these results on file.
 
+Furthermore 2 log files, one for the meter and one for the PV_simulator, will be automatically created for monitoring this processes
+
 The following picture represents the real PV power output curve during a normal day.
 
 ![Image of real_data](https://github.com/lucalusn/mobility/blob/main/images/real_curve.png)
