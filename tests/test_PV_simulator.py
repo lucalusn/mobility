@@ -6,7 +6,8 @@ from os import remove,path
 
 import logging
 
-logging.basicConfig(filename="logger.log",
+LOGGER_FILENAME="logger.log"
+logging.basicConfig(filename=LOGGER_FILENAME,
 					format='%(asctime)s %(message)s',
 					filemode='w')
 logger = logging.getLogger()
@@ -35,6 +36,15 @@ class invalid_Broker_param_test(unittest.TestCase):
                                           out_folder=".",
                                           logger=logger)
 
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
+
     def test_unable_to_connect(self):
         with self.assertRaises(Exception) as e:
             loop = asyncio.get_event_loop()
@@ -50,6 +60,16 @@ class fake_connection_to_close_test(unittest.TestCase):
     """
     Test case of fake connection
     """
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
+
     def test_fake_connection_to_close(self):
         broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
         simulator = PV_simulator.PV_simulator(broker=broker,
@@ -76,6 +96,15 @@ class valid_param_test(unittest.TestCase):
                                           delta_time=2,
                                           out_folder=".",
                                           logger=logger)
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
 
     def test_enable_to_connect_and_close(self):
         loop = asyncio.get_event_loop()

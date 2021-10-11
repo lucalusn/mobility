@@ -3,10 +3,12 @@ import asyncio
 from pv_simulator import Meter,Broker
 from datetime import datetime
 from json import loads
+from os import remove,path
 
 import logging
 
-logging.basicConfig(filename="logger.log",
+LOGGER_FILENAME="logger.log"
+logging.basicConfig(filename=LOGGER_FILENAME,
 					format='%(asctime)s %(message)s',
 					filemode='w')
 logger = logging.getLogger()
@@ -18,6 +20,15 @@ class invalid_Broker_param_test(unittest.TestCase):
     """
     broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
     meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
 
     def test_unable_to_connect(self):
         with self.assertRaises(Exception) as e:
@@ -50,6 +61,15 @@ class valid_param_test(unittest.TestCase):
     """
     broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova', logger=logger)
     meter = Meter.Meter(min_power=0, max_power=1000, delta_time=2, broker=broker, logger=logger)
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
 
     def test_enable_to_connect_and_close(self):
         loop = asyncio.get_event_loop()

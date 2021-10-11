@@ -4,10 +4,12 @@ from pv_simulator import Broker
 from aio_pika import IncomingMessage
 from datetime import datetime
 from json import dumps,loads
+from os import remove,path
 
 import logging
 
-logging.basicConfig(filename="logger.log",
+LOGGER_FILENAME="logger.log"
+logging.basicConfig(filename=LOGGER_FILENAME,
 					format='%(asctime)s %(message)s',
 					filemode='w')
 logger = logging.getLogger()
@@ -18,6 +20,15 @@ class invalid_param_test(unittest.TestCase):
     Test case of not valid configuration file
     """
     broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
 
     def test_unable_to_connect(self):
         with self.assertRaises(Exception) as e:
@@ -37,13 +48,22 @@ class fake_connection_to_close_test(unittest.TestCase):
     """
     Test case of fake connection
     """
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
+
     def test_fake_connection_to_close(self):
         broker = Broker.Broker(address='invalid_add', queue_name='queue_name', logger=logger)
         loop = asyncio.get_event_loop()
         broker.connection = True
         with self.assertRaises(Exception) as e:
             loop.run_until_complete(broker.close())
-        a=str(e.exception)
         self.assertEqual(str(e.exception), "'bool\' object has no attribute \'close'")
 
 
@@ -53,6 +73,15 @@ class valid_param_test(unittest.TestCase):
     Test real case scenario
     """
     broker = Broker.Broker(address='amqp://guest:guest@localhost:5672/', queue_name='prova', logger=logger)
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        remove the created logger file
+        :return:
+        """
+        if path.isfile(LOGGER_FILENAME):
+            remove(LOGGER_FILENAME)
 
     def test_enable_to_connect_and_close(self):
         loop = asyncio.get_event_loop()
